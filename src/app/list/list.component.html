@@ -1,0 +1,52 @@
+<div class="main">
+    <h1 class="h1">
+        To Do App</h1>
+    <form class="todo-form">
+        <mat-form-field appearance="legacy">
+            <mat-label>Enter task </mat-label>
+            <input class="hat" matInput placeholder="task to do" required #task>
+            <mat-icon matSuffix></mat-icon>
+            <mat-hint>Add task</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="todo-form" appearance="fill">
+            <mat-label>Input the Date</mat-label>
+            <input matInput [matDatepicker]="picker" required (dateInput)="addEvent( $event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button class="button" mat-raised-button color="primary" (click)="insertTask(task.value)">+</button><br>
+    </form>
+
+
+    <div class="display">
+        <div class="table" *ngFor="let item of taskList">
+            <mat-radio-group aria-label="Select an option">
+                <mat-radio-button [ngClass]="{'enabled':toggle,'disabled':!toggle}"(click)="displayList(item.id,item.name,item.date)" value="{{item.id+1}}">{{item.name | titlecase}}
+                    <span>{{item.date | slice : 0:10}}</span>
+                </mat-radio-button>
+            </mat-radio-group>
+            <div>
+                <button mat-raised-button color="primary" (click)="edit(item.id)">Edit</button>
+                <button class="bt0" mat-raised-button color="warn" (click)="remove(item.id)">Delete</button>
+            </div>
+        </div>
+        <div>
+            <div *ngIf="new">
+                <div class="input" *ngFor="let item of newList">
+                    <label>{{item.id+1}}</label>
+                    <input type="text" value="{{newvalue.value}}" #newvalue>
+                    <input type="date" value="{{newvalue1.value}}" #newvalue1>
+                    <button class="bt2" mat-raised-button color="primary" (click)="update(item.id,newvalue.value,newvalue1.value)">Update</button>
+                </div>
+            </div>
+            <mat-radio-group class="table1" *ngFor="let item of taskList2" aria-label="Select an option">
+                <mat-radio-button class="cross" value="item.name">{{item.name | titlecase}}
+                    <span>{{item.date | slice : 0:10}}</span>
+                </mat-radio-button>
+                <button mat-raised-button color="warn" (click)="removeafteredit(item.id,item.name)">Delete</button>
+            </mat-radio-group>
+        </div>
+
+
+
+    </div>
